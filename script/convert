@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+
+if ARGV.empty?
+  "Usage: convert [--tidy] source.html"
+  exit
+end
+
+tidy = false
+html = nil
+
+if ARGC[0] == '--tidy'
+  tidy = true
+  html = ARGV[1]
+end
+html ||= ARGV[0]
+pdf = html.gsub(/\.html/, '.pdf')
+fo = html.gsub(/\.html/, '.fo')
+style = 'xhtml2fo'
+
+if tidy
+  `tidy #{html} -b -c -q -asxhtml -o tidy-#{html}`
+  html = "tidy-#{html}"
+end
+
+`fop -xml #{html} -xsl ../#{style}.xsl -foout #{fo}`
+`fop -xml #{html} -xsl ../#{style}.xsl -pdf #{pdf}`

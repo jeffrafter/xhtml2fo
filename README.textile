@@ -1,0 +1,94 @@
+== xhtml2fo.xsl 
+
+Original Copyright Antenna House, Inc. (http://www.antennahouse.com) 2001, 2002.
+
+Updates 2008 Jeff Rafter for Apache FOP 0.94
+
+== Changes
+
+* Font/bold modifications to support FOP implemented 400 and 700 weight
+* Table border changes
+* Class attribute processing (supporting context sensitive keep and breaks)
+* Class attribute handling templates
+* Keeps on table rows (within page)
+* Table caption support modified (using blocks and normal tables for compat.)
+  
+== Todo
+
+* Page customization in breaks
+* Landscape support
+* Table cell clipping
+  
+== Problems
+
+* Make sure there is no doctype in your HTML, currently this causes timeouts
+* Make sure there is no xml:lang, for some reason causing invalid documents
+  
+== Usage
+
+Download the latest Apache FOP bin release
+
+  ./fop -xml your-page.html -xsl xhtml2fo.xsl -pdf your-doc.pdf
+  
+If your HTML is not well-formed you will run into problems. You can download 
+tidy (sudo port install tidy) to modify it
+
+  tidy your-page.html -b -c -q -asxhtml -o your-revised-page.html
+  
+== Keeps and Breaks
+
+This version of the stylesheet tries to support keeps and breaks more fully. If
+you want to break after a block simply set the class attribute:
+
+  <div class="break-after">...</div>
+  
+or
+
+  <div class="break-before">...</div>
+
+If the class appears on a block level element it assumes you want to break the
+page. If it appears on an inline element it assumes you want to break the line.
+
+Keep works similarly. You can use keep-together, keep-with-next and 
+keep-with-previous. Note that this is not necessary within tables, by default
+rows are always kept together. If used within a table, however, the stylesheet
+assumes your context to be within-column. Otherwise if used on a block it will
+assume within-page. If used on an inline element it will assume the context 
+within-line. By default heading level elements are always written with 
+keep-with-next.
+
+For example:
+
+  <ul class="keep-together">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>    
+  </ul>  
+
+If the list would naturally fall on a page break, the whole list will be moved 
+to the next page. Also:
+
+  <img src="/images/figure-1.png"> 
+  <div class="keep-with-previous caption">Some caption about figure 1</div>
+  
+== Class processing
+
+A simple template has been added near the beginning of the stlyesheet to allow 
+for handling additional CSS classes via templates:
+
+  <xsl:template name="class-template">
+    <xsl:param name="class"/>
+    <xsl:choose>
+      <xsl:when test="$class = 'odd'">
+        <xsl:attribute name="background-color">#EEE</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="$class = 'numeric'">
+        <xsl:attribute name="text-align">right</xsl:attribute>
+      </xsl:when>
+      <xsl:when test="$class = 'line'">
+        <xsl:attribute name="border-top">1px dotted #AAA</xsl:attribute>
+      </xsl:when>
+    </xsl:choose>  
+  </xsl:template>
+
+This is not ideal but does allow for some class based customization.
