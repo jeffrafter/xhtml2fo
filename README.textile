@@ -50,12 +50,16 @@ tidy to modify it
 
 This version of the stylesheet tries to support keeps and breaks more fully. If
 you want to break after a block simply set the class attribute:
-
+  
+  <pre>
   <div class="break-after">...</div>
+  </pre>
   
 or
 
+  <pre>
   <div class="break-before">...</div>
+  </pre>
 
 If the class appears on a block level element it assumes you want to break the
 page. If it appears on an inline element it assumes you want to break the line.
@@ -70,23 +74,28 @@ keep-with-next.
 
 For example:
 
+  <pre>
   <ul class="keep-together">
     <li>Item 1</li>
     <li>Item 2</li>
     <li>Item 3</li>    
-  </ul>  
+  </ul>
+  </pre>  
 
 If the list would naturally fall on a page break, the whole list will be moved 
 to the next page. Also:
 
+  <pre>
   <img src="/images/figure-1.png"> 
   <div class="keep-with-previous caption">Some caption about figure 1</div>
+  </pre>
   
 == Class processing
 
 A simple template has been added near the beginning of the stlyesheet to allow 
 for handling additional CSS classes via templates:
 
+  <pre>
   <xsl:template name="class-template">
     <xsl:param name="class"/>
     <xsl:choose>
@@ -101,5 +110,6 @@ for handling additional CSS classes via templates:
       </xsl:when>
     </xsl:choose>  
   </xsl:template>
-
+  </pre>
+  
 This is not ideal but does allow for some class based customization.
