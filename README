@@ -1,10 +1,10 @@
-h1. xhtml2fo.xsl 
+== xhtml2fo.xsl 
 
 Original Copyright Antenna House, Inc. (http://www.antennahouse.com) 2001, 2002.
 
 Updates 2008 Jeff Rafter for Apache FOP 0.94
 
-h2. Changes
+== Changes
 
 * Font/bold modifications to support FOP implemented 400 and 700 weight
 * Table border changes
@@ -13,18 +13,18 @@ h2. Changes
 * Keeps on table rows (within page)
 * Table caption support modified (using blocks and normal tables for compat.)
   
-h2. Todo
+== Todo
 
 * Page customization in breaks
 * Landscape support
 * Table cell clipping
   
-h2. Problems
+== Problems
 
 * Make sure there is no doctype in your HTML, currently this causes timeouts
 * Make sure there is no xml:lang, for some reason causing invalid documents
   
-h2. Requirements
+== Requirements
 
 The output of this stylesheet should be cross renderer compatible. On OSX you
 can use the FOP rederer and tidy (if necessary):
@@ -35,7 +35,7 @@ can use the FOP rederer and tidy (if necessary):
 The script/convert program in the repository shells to these and assumes they
 are in your path.
   
-h2. Usage
+== Usage
 
 Download the latest Apache FOP bin release
 
@@ -46,7 +46,7 @@ tidy to modify it
 
   tidy your-page.html -b -c -q -asxhtml -o your-revised-page.html
   
-h2. Keeps and Breaks
+== Keeps and Breaks
 
 This version of the stylesheet tries to support keeps and breaks more fully. If
 you want to break after a block simply set the class attribute:
@@ -82,12 +82,11 @@ to the next page. Also:
   <img src="/images/figure-1.png"> 
   <div class="keep-with-previous caption">Some caption about figure 1</div>
   
-h2. Class processing
+== Class processing
 
 A simple template has been added near the beginning of the stlyesheet to allow 
 for handling additional CSS classes via templates:
 
-<samp>
   <xsl:template name="class-template">
     <xsl:param name="class"/>
     <xsl:choose>
@@ -102,6 +101,5 @@ for handling additional CSS classes via templates:
       </xsl:when>
     </xsl:choose>  
   </xsl:template>
-</samp>
 
 This is not ideal but does allow for some class based customization.
