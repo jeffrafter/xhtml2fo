@@ -1,10 +1,10 @@
-== xhtml2fo.xsl 
+h1. xhtml2fo.xsl 
 
 Original Copyright Antenna House, Inc. (http://www.antennahouse.com) 2001, 2002.
 
 Updates 2008 Jeff Rafter for Apache FOP 0.94
 
-== Changes
+h2. Changes
 
 * Font/bold modifications to support FOP implemented 400 and 700 weight
 * Table border changes
@@ -13,18 +13,18 @@ Updates 2008 Jeff Rafter for Apache FOP 0.94
 * Keeps on table rows (within page)
 * Table caption support modified (using blocks and normal tables for compat.)
   
-== Todo
+h2. Todo
 
 * Page customization in breaks
 * Landscape support
 * Table cell clipping
   
-== Problems
+h2. Problems
 
 * Make sure there is no doctype in your HTML, currently this causes timeouts
 * Make sure there is no xml:lang, for some reason causing invalid documents
   
-== Requirements
+h2. Requirements
 
 The output of this stylesheet should be cross renderer compatible. On OSX you
 can use the FOP rederer and tidy (if necessary):
@@ -35,7 +35,7 @@ can use the FOP rederer and tidy (if necessary):
 The script/convert program in the repository shells to these and assumes they
 are in your path.
   
-== Usage
+h2. Usage
 
 Download the latest Apache FOP bin release
 
@@ -46,20 +46,16 @@ tidy to modify it
 
   tidy your-page.html -b -c -q -asxhtml -o your-revised-page.html
   
-== Keeps and Breaks
+h2. Keeps and Breaks
 
 This version of the stylesheet tries to support keeps and breaks more fully. If
 you want to break after a block simply set the class attribute:
   
-  <pre>
-  <div class="break-after">...</div>
-  </pre>
+<pre><div class="break-after">...</div></pre>
   
 or
 
-  <pre>
-  <div class="break-before">...</div>
-  </pre>
+<pre><div class="break-before">...</div></pre>
 
 If the class appears on a block level element it assumes you want to break the
 page. If it appears on an inline element it assumes you want to break the line.
@@ -74,42 +70,36 @@ keep-with-next.
 
 For example:
 
-  <pre>
-  <ul class="keep-together">
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>    
-  </ul>
-  </pre>  
+<pre><ul class="keep-together">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>    
+</ul></pre>  
 
 If the list would naturally fall on a page break, the whole list will be moved 
 to the next page. Also:
 
-  <pre>
-  <img src="/images/figure-1.png"> 
-  <div class="keep-with-previous caption">Some caption about figure 1</div>
-  </pre>
+<pre><img src="/images/figure-1.png"> 
+<div class="keep-with-previous caption">Some caption about figure 1</div></pre>
   
-== Class processing
+h2. Class processing
 
 A simple template has been added near the beginning of the stlyesheet to allow 
 for handling additional CSS classes via templates:
 
-  <pre>
-  <xsl:template name="class-template">
-    <xsl:param name="class"/>
-    <xsl:choose>
-      <xsl:when test="$class = 'odd'">
-        <xsl:attribute name="background-color">#EEE</xsl:attribute>
-      </xsl:when>
-      <xsl:when test="$class = 'numeric'">
-        <xsl:attribute name="text-align">right</xsl:attribute>
-      </xsl:when>
-      <xsl:when test="$class = 'line'">
-        <xsl:attribute name="border-top">1px dotted #AAA</xsl:attribute>
-      </xsl:when>
-    </xsl:choose>  
-  </xsl:template>
-  </pre>
+<pre><xsl:template name="class-template">
+  <xsl:param name="class"/>
+  <xsl:choose>
+    <xsl:when test="$class = 'odd'">
+      <xsl:attribute name="background-color">#EEE</xsl:attribute>
+    </xsl:when>
+    <xsl:when test="$class = 'numeric'">
+      <xsl:attribute name="text-align">right</xsl:attribute>
+    </xsl:when>
+    <xsl:when test="$class = 'line'">
+      <xsl:attribute name="border-top">1px dotted #AAA</xsl:attribute>
+    </xsl:when>
+  </xsl:choose>  
+</xsl:template></pre>
   
 This is not ideal but does allow for some class based customization.
